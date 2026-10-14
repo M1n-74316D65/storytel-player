@@ -33,21 +33,20 @@ export function SearchResultList({
   const { t } = useTranslation();
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-[#0A0A0A] overflow-hidden">
-      {/* 1. Header Row (46px) */}
-      <div className="h-[46px] px-6 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0 select-none">
-        <span className="text-xs font-semibold text-gray-400">
+    <div className="flex-1 flex flex-col min-w-0 bg-surface-base overflow-hidden">
+      <div className="h-[46px] px-6 border-b border-white/[0.06] flex items-center justify-between flex-shrink-0 select-none">
+        <span className="text-xs font-medium text-ink-muted">
           {results.length === totalRawHits
             ? t('search.hitCount', { count: results.length })
             : t('search.hitCountFiltered', { count: results.length, total: totalRawHits })}
         </span>
 
         <div className="flex items-center gap-2">
-          <span className="text-[11px] text-gray-500 font-medium">{t('search.sortLabel', 'Sort:')}</span>
+          <span className="text-[11px] text-ink-faint font-medium">{t('search.sortLabel', 'Sort:')}</span>
           <select
             value={sortBy}
             onChange={(e) => onChangeSort(e.target.value as SortOption)}
-            className="h-7 px-2.5 rounded-[8px] bg-[#1A1A1A] border border-white/10 text-xs text-gray-200 outline-none focus:border-[#FF5100]"
+            className="h-7 px-2.5 rounded-md bg-surface-overlay border border-white/[0.08] text-xs text-gray-200 outline-none focus:border-accent/70"
           >
             <option value="relevance">{t('search.sortRelevance', 'Most relevant')}</option>
             <option value="title">{t('search.sortTitle', 'Title (A–Z)')}</option>
@@ -56,8 +55,7 @@ export function SearchResultList({
         </div>
       </div>
 
-      {/* 2. Scrollable Cards Container */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-2.5 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-0.5 custom-scrollbar">
         {results.map((book) => {
           const isSelected = selectedBookId === book.id;
           const isAdded = addedBooks[book.id];
@@ -74,23 +72,22 @@ export function SearchResultList({
             <div
               key={book.id}
               onClick={() => onSelectBook(book)}
-              className={`group flex items-center gap-3.5 p-3 rounded-2xl border transition-all cursor-pointer select-none ${
+              className={`group flex items-center gap-3 p-2.5 rounded-md transition-colors cursor-pointer select-none ${
                 isSelected
-                  ? 'bg-[#FF5100]/10 border-[#FF5100]/45 shadow-md shadow-[#FF5100]/10'
-                  : 'bg-[#141414] hover:bg-[#242426] border-white/[0.06] hover:border-white/15 shadow-sm'
+                  ? 'bg-surface-overlay'
+                  : 'hover:bg-white/[0.04]'
               }`}
             >
-              {/* Cover Art (64x64) */}
-              <div className="w-16 h-16 rounded-[10px] bg-gray-900 overflow-hidden flex-shrink-0 relative shadow">
+              <div className="w-14 h-14 rounded-md bg-surface-overlay overflow-hidden flex-shrink-0 relative">
                 {book.coverUrl ? (
                   <img
                     src={buildCoverUrl(book.coverUrl)}
                     alt={book.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-600">
+                  <div className="w-full h-full flex items-center justify-center text-ink-faint">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
@@ -98,60 +95,57 @@ export function SearchResultList({
                 )}
               </div>
 
-              {/* Details & Badges */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
                   {book.hasAbook && (
-                    <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-full bg-[#FF5100]/20 text-[#FF5100] border border-[#FF5100]/30">
+                    <span className="text-[10px] uppercase font-medium text-accent">
                       {t('search.audiobook', 'Audiobook')}
                     </span>
                   )}
                   {book.hasEbook && (
-                    <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 text-[#60a5fa] border border-blue-500/30">
+                    <span className="text-[10px] uppercase font-medium text-ink-muted">
                       {t('search.ebook', 'E-book')}
                     </span>
                   )}
                   {book.language && (
-                    <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-white/10 text-gray-300 border border-white/10">
+                    <span className="text-[10px] uppercase font-medium text-ink-faint">
                       {book.language.toUpperCase()}
                     </span>
                   )}
                   {durationText && (
-                    <span className="text-xs text-gray-400 font-medium ml-1">
+                    <span className="text-xs text-ink-faint ml-0.5">
                       {durationText}
                     </span>
                   )}
                   {book.category && (
-                    <span className="text-xs text-gray-500 truncate max-w-[120px]">
-                      • {book.category}
+                    <span className="text-xs text-ink-faint truncate max-w-[120px]">
+                      · {book.category}
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-[15px] font-bold text-white truncate group-hover:text-[#FF5100] transition-colors">
+                <h3 className={`text-sm font-medium truncate transition-colors ${isSelected ? 'text-accent' : 'text-white group-hover:text-accent'}`}>
                   {book.title}
                 </h3>
 
-                <p className="text-[13px] text-[#9ca3af] truncate mt-0.5">
+                <p className="text-xs text-ink-muted truncate mt-0.5">
                   {book.authors}
                   {book.narrators && ` · ${book.narrators}`}
                 </p>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center gap-2 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
-                {/* Add / In Library Button */}
+              <div className="flex items-center gap-1.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
                 <button
                   type="button"
                   onClick={(e) => onAddToLibrary(e, book.id)}
                   title={isAdded ? t('search.addedToBookshelf', 'Added to Library') : t('search.addToBookshelf', 'Add to Library')}
                   disabled={isAdded || isAdding}
-                  className={`w-9 h-9 rounded-[10px] flex items-center justify-center transition-all ${
+                  className={`w-8 h-8 rounded-md flex items-center justify-center transition-colors ${
                     isAdded
-                      ? 'bg-green-600/20 text-green-400 border border-green-500/40 cursor-default'
+                      ? 'text-green-400 cursor-default'
                       : isAdding
-                      ? 'bg-white/10 text-white animate-pulse'
-                      : 'bg-[#1A1A1A] hover:bg-[#2C2C2E] text-gray-300 hover:text-white border border-white/10'
+                      ? 'text-white animate-pulse'
+                      : 'text-ink-muted hover:text-white hover:bg-white/10'
                   }`}
                 >
                   {isAdded ? (
@@ -170,15 +164,14 @@ export function SearchResultList({
                   )}
                 </button>
 
-                {/* Play Button */}
                 <button
                   type="button"
                   onClick={(e) => onPlayBook(e, book.id)}
                   title={t('search.play', 'Play')}
-                  className={`h-9 px-3.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95 ${
+                  className={`h-8 px-3 rounded-md font-medium text-xs flex items-center gap-1.5 transition-colors ${
                     isSelected
-                      ? 'bg-[#FF5100] hover:bg-[#ff641a] text-white shadow-[#FF5100]/30'
-                      : 'bg-white/10 hover:bg-[#FF5100] text-white hover:shadow-[#FF5100]/25'
+                      ? 'bg-accent hover:bg-accent-hover text-white'
+                      : 'bg-white/10 hover:bg-accent text-white'
                   }`}
                 >
                   <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">

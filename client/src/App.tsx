@@ -49,7 +49,7 @@ function AuthenticatedLayout({
   }, [searchParams]);
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#0A0A0A] text-white select-none">
+    <div className="h-screen w-screen flex flex-col overflow-hidden bg-surface-base text-white select-none">
       {!isPlayerView && (
         <TopBar
           onOpenSettings={onOpenSettings}
@@ -190,8 +190,8 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
-        <div className="text-sm font-medium text-gray-400">{t("common.loading")}</div>
+      <div className="min-h-screen bg-surface-base flex items-center justify-center">
+        <div className="text-sm font-medium text-ink-muted">{t("common.loading")}</div>
       </div>
     );
   }
@@ -245,7 +245,7 @@ function App() {
             />
           </AuthenticatedLayout>
         ) : (
-          <div className="min-h-screen bg-[#0A0A0A]">
+          <div className="min-h-screen bg-surface-base">
             <Routes>
               <Route
                 path="/login"

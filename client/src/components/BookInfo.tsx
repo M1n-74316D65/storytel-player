@@ -45,11 +45,11 @@ const BookInfo: React.FC<BookInfoProps> = ({
                 <img
                     src={buildCoverUrl(book.book.largeCover || book.book.largeCoverE)}
                     alt={book.book.name}
-                    className="w-64 h-64 object-cover rounded-lg shadow-2xl mb-4"
+                    className="w-64 h-64 object-cover rounded-lg mb-4"
                 />
                 <div className="text-center max-w-full px-4 py-2">
-                    <h2 className="text-lg font-bold text-white mb-0.5 break-words">{book.book.name}</h2>
-                    <p className="text-sm text-gray-300 mb-0 break-words">
+                    <h2 className="text-lg font-semibold text-white mb-0.5 break-words">{book.book.name}</h2>
+                    <p className="text-sm text-ink-muted mb-0 break-words">
                         {t('bookCard.author')} {book.book.authorsAsString} • {t('bookCard.narrator')} {book.abook?.narratorAsString || '—'}
                     </p>
                 </div>
@@ -59,7 +59,7 @@ const BookInfo: React.FC<BookInfoProps> = ({
                 {currentChapter && (
                     <div className="text-left flex-1">
                         <p className="text-base text-white">{currentChapter.title}</p>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-ink-muted">
                             {formatTimeNatural((currentChapter.end - currentTime) / playbackRate, {
                                 hours: t('player.timeUnits.hours'),
                                 minutes: t('player.timeUnits.minutes'),
@@ -68,11 +68,11 @@ const BookInfo: React.FC<BookInfoProps> = ({
                         </p>
                     </div>
                 )}
-                <div className={`flex items-center space-x-3 ${currentChapter ? 'ml-4' : 'ml-auto'}`}>
+                <div className={`flex items-center space-x-2 ${currentChapter ? 'ml-4' : 'ml-auto'}`}>
                     {chapters && chapters.length > 0 && (
                         <button
                             onClick={onShowChaptersModal}
-                            className="px-2 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+                            className="px-2 py-2 bg-surface-overlay text-white rounded-md hover:bg-white/10 transition-colors"
                         >
                             <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                                 <g>
@@ -88,7 +88,7 @@ const BookInfo: React.FC<BookInfoProps> = ({
                     <button
                         id="bookmark-btn"
                         onClick={onShowBookmarksModal}
-                        className="px-2 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+                        className="px-2 py-2 bg-surface-overlay text-white rounded-md hover:bg-white/10 transition-colors"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              className="w-6 h-6">
@@ -110,7 +110,7 @@ const BookInfo: React.FC<BookInfoProps> = ({
                                 ? 'bg-green-600 hover:bg-green-700'
                                 : isDownloading
                                     ? 'bg-red-600 hover:bg-red-700'
-                                    : 'bg-gray-800 hover:bg-gray-700'
+                                    : 'bg-surface-overlay hover:bg-white/10'
                         } text-white`}
                     >
                         {isDownloading ? (

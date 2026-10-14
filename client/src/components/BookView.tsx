@@ -196,57 +196,50 @@ function BookView() {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-[#FF5100] selection:text-white pb-32">
+        <div className="min-h-screen bg-surface-base text-white pb-32">
             <Navbar barTitle={t('bookView.details')} onBackClick={() => navigate('/')}>
                 <span>{book.book.name}</span>
             </Navbar>
 
-            {/* Toast Notification */}
             {saveToast && (
-                <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-xs font-medium flex items-center gap-2 shadow-2xl backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 bg-green-950/90 text-green-300 border border-green-700/50">
+                <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-md text-xs font-medium flex items-center gap-2 bg-surface-overlay text-green-300 border border-green-800/60">
                     <span>{saveToast.text}</span>
                 </div>
             )}
 
-            {/* Main Content */}
             <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center">
-                    {/* Book Cover */}
                     <div className="mb-6">
                         <img
                             src={buildCoverUrl(book.book.largeCover || book.book.largeCoverE)}
                             alt={book.book.name}
-                            className="w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-2xl shadow-2xl border border-white/10"
+                            className="w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-lg"
                         />
                     </div>
 
-                    {/* Book Title */}
-                    <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 text-center break-words max-w-full px-4">
+                    <h1 className="text-2xl sm:text-3xl font-semibold text-white mb-2 text-center break-words max-w-full px-4">
                         {book.book.name}
                     </h1>
 
-                    {/* Author and Narrator */}
-                    <div className="text-sm text-gray-300 mb-6 text-center space-y-1">
+                    <div className="text-sm text-ink-muted mb-6 text-center space-y-1">
                         {book.book.authorsAsString && (
                             <p>
-                                <span className="text-gray-400">{t('bookCard.author')}</span>{' '}
-                                <span className="font-semibold text-white">{book.book.authorsAsString}</span>
+                                <span className="text-ink-faint">{t('bookCard.author')}</span>{' '}
+                                <span className="font-medium text-white">{book.book.authorsAsString}</span>
                             </p>
                         )}
                         {book.abook?.narratorAsString && (
                             <p>
-                                <span className="text-gray-400">{t('bookCard.narrator')}</span>{' '}
-                                <span className="font-semibold text-white">{book.abook.narratorAsString}</span>
+                                <span className="text-ink-faint">{t('bookCard.narrator')}</span>{' '}
+                                <span className="font-medium text-white">{book.abook.narratorAsString}</span>
                             </p>
                         )}
                     </div>
 
-                    {/* Action Buttons Row */}
                     <div className="flex items-center gap-3 mb-8 flex-wrap justify-center">
-                        {/* Play Button */}
                         <button
                             onClick={handlePlayBook}
-                            className="px-7 py-3.5 bg-[#FF5100] hover:bg-[#ff641a] text-white rounded-full transition-all flex items-center gap-2 text-base font-bold shadow-lg shadow-[#FF5100]/30 hover:scale-105 active:scale-95"
+                            className="px-6 py-3 bg-accent hover:bg-accent-hover text-white rounded-md transition-colors flex items-center gap-2 text-base font-medium"
                         >
                             <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"/>
@@ -254,19 +247,18 @@ function BookView() {
                             <span>{t('bookView.listen', 'Listen')}</span>
                         </button>
 
-                        {/* Save to Bookshelf Button */}
                         <button
                             onClick={isSaved ? () => setShowRemoveConfirm(true) : handleSaveToLibrary}
                             disabled={isSaving}
                             title={isSaved ? t('bookshelf.remove') : undefined}
-                            className={`px-5 py-3.5 rounded-full transition-all flex items-center gap-2 text-sm font-semibold border group/save ${
+                            className={`px-5 py-3 rounded-md transition-colors flex items-center gap-2 text-sm font-medium border group/save ${
                                 isSaved
-                                    ? 'bg-green-600/20 text-green-300 border-green-500/40 hover:bg-red-600/20 hover:text-red-300 hover:border-red-500/40'
-                                    : 'bg-[#1A1A1A] hover:bg-[#2C2C2E] text-white border-white/10 hover:border-white/20 active:scale-95'
+                                    ? 'bg-green-600/15 text-green-300 border-green-500/30 hover:bg-red-600/15 hover:text-red-300 hover:border-red-500/30'
+                                    : 'bg-surface-overlay hover:bg-white/[0.06] text-white border-white/[0.08]'
                             }`}
                         >
                             {isSaving ? (
-                                <div className="animate-spin w-4 h-4 text-[#FF5100]">
+                                <div className="animate-spin w-4 h-4 text-accent">
                                     <svg fill="none" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
@@ -295,33 +287,31 @@ function BookView() {
                         </button>
                     </div>
 
-                    {/* Book Info */}
-                    <div className="w-full max-w-md space-y-2 text-sm">
-                        <div className="flex justify-between py-2 border-b border-gray-800">
-                            <span className="text-gray-400">{t('bookView.language')}</span>
+                    <div className="w-full max-w-md space-y-0 text-sm">
+                        <div className="flex justify-between py-2.5 border-b border-white/[0.06]">
+                            <span className="text-ink-faint">{t('bookView.language')}</span>
                             <span className="text-white">{language}</span>
                         </div>
-                        <div className="flex justify-between py-2 border-b border-gray-800">
-                            <span className="text-gray-400">{t('bookView.duration')}</span>
+                        <div className="flex justify-between py-2.5 border-b border-white/[0.06]">
+                            <span className="text-ink-faint">{t('bookView.duration')}</span>
                             <span className="text-white">{formatDuration(book.abook.time)}</span>
                         </div>
-                        <div className="flex justify-between py-2 border-b border-gray-800">
-                            <span className="text-gray-400">{t('bookView.category')}</span>
+                        <div className="flex justify-between py-2.5 border-b border-white/[0.06]">
+                            <span className="text-ink-faint">{t('bookView.category')}</span>
                             <span className="text-white flex items-center">
                                 {book.book.category.title}
                             </span>
                         </div>
                     </div>
 
-                    {/* Description */}
                     <div className="w-full max-w-md mt-8">
-                        <p className="text-gray-300 text-sm leading-relaxed">
+                        <p className="text-ink-muted text-sm leading-relaxed">
                             {getTruncatedDescription()}
                         </p>
                         {shouldShowMoreButton() && (
                             <button
                                 onClick={() => setShowFullDescription(!showFullDescription)}
-                                className="text-white mt-2 text-sm font-semibold hover:text-gray-300 transition-colors"
+                                className="text-white mt-2 text-sm font-medium hover:text-ink-muted transition-colors"
                             >
                                 ...{showFullDescription ? t('bookView.showLess') : t('bookView.showMore')}
                             </button>

@@ -66,25 +66,25 @@ export function TopBar({ onOpenSettings, searchQuery = '', onSearchChange }: Top
   };
 
   return (
-    <header className="h-16 px-5 gap-3.5 bg-[#0A0A0A] border-b border-white/[0.05] flex items-center justify-between z-40 select-none flex-shrink-0">
-      {/* 1. Logo */}
+    <header className="h-14 px-5 gap-3 bg-surface-base border-b border-white/[0.06] flex items-center justify-between z-40 select-none flex-shrink-0">
+      {/* Logo */}
       <button
         onClick={() => navigate('/')}
-        className="w-10 h-10 rounded-2xl bg-[#FF5100] flex items-center justify-center shadow-lg shadow-[#FF5100]/20 hover:scale-105 active:scale-95 transition-transform flex-shrink-0"
+        className="w-9 h-9 rounded-md bg-accent flex items-center justify-center flex-shrink-0 hover:bg-accent-hover transition-colors"
         title="Storytel"
       >
-        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <svg className="w-[18px] h-[18px] text-white" fill="currentColor" viewBox="0 0 24 24">
           <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" />
         </svg>
       </button>
 
-      {/* 2. Bookshelf Button */}
+      {/* Bookshelf */}
       <button
         onClick={() => navigate('/')}
-        className={`h-[38px] px-3.5 rounded-[10px] flex items-center gap-2 text-sm font-medium transition-all flex-shrink-0 ${
+        className={`h-9 px-3 rounded-md flex items-center gap-2 text-sm font-medium transition-colors flex-shrink-0 ${
           isBookshelfPage
-            ? 'bg-[#1A1A1A] text-white border border-white/10 shadow-sm'
-            : 'text-gray-400 hover:text-white hover:bg-[#1A1A1A]/60'
+            ? 'bg-surface-overlay text-white'
+            : 'text-ink-muted hover:text-white hover:bg-surface-overlay/60'
         }`}
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,10 +93,10 @@ export function TopBar({ onOpenSettings, searchQuery = '', onSearchChange }: Top
         <span>{t('dashboard.title', 'My Library')}</span>
       </button>
 
-      {/* 3. Search Field */}
+      {/* Search */}
       <div className="flex-grow max-w-2xl mx-1 relative">
-        <div className="relative flex items-center h-11 rounded-[12px] bg-[#1A1A1A] border border-white/[0.08] focus-within:border-[#FF5100]/60 focus-within:ring-1 focus-within:ring-[#FF5100]/30 transition-all px-3.5 shadow-inner">
-          <svg className="w-4 h-4 text-gray-400 mr-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="relative flex items-center h-9 rounded-md bg-surface-overlay border border-white/[0.08] focus-within:border-accent/70 transition-colors px-3">
+          <svg className="w-4 h-4 text-ink-faint mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -106,33 +106,31 @@ export function TopBar({ onOpenSettings, searchQuery = '', onSearchChange }: Top
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             placeholder={t('search.placeholder', 'Search by title, author, or narrator...')}
-            className="w-full bg-transparent text-white placeholder-gray-500 text-sm focus:outline-none"
+            className="w-full bg-transparent text-white placeholder-ink-faint text-sm focus:outline-none"
           />
           {searchQuery ? (
             <button
               onClick={handleClear}
-              className="text-gray-400 hover:text-white p-1 rounded-full hover:bg-white/10 ml-1.5 transition-colors"
+              className="text-ink-muted hover:text-white p-1 rounded-md hover:bg-white/10 ml-1 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           ) : (
-            <kbd className="hidden sm:inline-flex items-center text-[11px] font-semibold text-gray-500 bg-white/5 px-2 py-0.5 rounded border border-white/5 ml-1.5">
+            <kbd className="hidden sm:inline-flex items-center text-[11px] font-medium text-ink-faint bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.06] ml-1">
               ⌘K
             </kbd>
           )}
         </div>
       </div>
 
-      {/* 4. Language Button */}
       <LanguageButton variant="topbar" className="flex-shrink-0" />
 
-      {/* 5. Settings Button */}
       <button
         onClick={onOpenSettings}
         title={t('settings.title', 'Settings')}
-        className="w-[38px] h-[38px] rounded-[10px] bg-[#1A1A1A] hover:bg-[#2C2C2E] border border-white/[0.08] text-gray-400 hover:text-white flex items-center justify-center transition-colors flex-shrink-0"
+        className="w-9 h-9 rounded-md text-ink-muted hover:text-white hover:bg-surface-overlay flex items-center justify-center transition-colors flex-shrink-0"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />

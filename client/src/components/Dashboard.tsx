@@ -178,31 +178,29 @@ export function Dashboard({ onLogout, triggerLogout, setTriggerLogout }: Dashboa
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] text-white">
+      <div className="min-h-screen bg-surface-base text-white">
         <ErrorState error={error} onRetry={() => window.location.reload()} onLogout={onLogout} />
       </div>
     );
   }
 
   return (
-    <div className="flex-1 bg-[#0A0A0A] text-white selection:bg-[#FF5100] selection:text-white overflow-y-auto custom-scrollbar">
+    <div className="flex-1 bg-surface-base text-white overflow-y-auto custom-scrollbar">
       <main className="max-w-7xl mx-auto py-7 px-6 pb-28">
-        {/* Top Header & Search Toolbar */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-3">
+            <h1 className="text-xl font-semibold tracking-tight text-white flex items-baseline gap-2.5">
               <span>{t('dashboard.title', 'My Library')}</span>
-              <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#1A1A1A] border border-white/10 text-gray-400">
+              <span className="text-sm font-normal text-ink-faint">
                 {t('dashboard.bookCount', { count: books.length })}
               </span>
             </h1>
           </div>
 
-          {/* Quick filter in library */}
           <div className="relative w-full md:w-72">
-            <div className="relative flex items-center bg-[#1A1A1A] border border-white/[0.08] focus-within:border-[#FF5100]/60 focus-within:ring-1 focus-within:ring-[#FF5100]/30 rounded-xl px-3.5 h-10 transition-all shadow-inner">
+            <div className="relative flex items-center bg-surface-overlay border border-white/[0.08] focus-within:border-accent/70 rounded-md px-3 h-9 transition-colors">
               <svg
-                className="w-4 h-4 text-gray-400 flex-shrink-0 mr-2.5"
+                className="w-4 h-4 text-ink-faint flex-shrink-0 mr-2"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -220,13 +218,13 @@ export function Dashboard({ onLogout, triggerLogout, setTriggerLogout }: Dashboa
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('dashboard.search', 'Search my library...')}
-                className="w-full bg-transparent text-white placeholder-gray-500 text-xs focus:outline-none"
+                className="w-full bg-transparent text-white placeholder-ink-faint text-sm focus:outline-none"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="text-gray-400 hover:text-white ml-1.5 p-1 rounded-full hover:bg-white/10"
+                  className="text-ink-muted hover:text-white ml-1 p-1 rounded-md hover:bg-white/10"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -237,8 +235,7 @@ export function Dashboard({ onLogout, triggerLogout, setTriggerLogout }: Dashboa
           </div>
         </div>
 
-        {/* Filter Status Tabs */}
-        <div className="flex items-center gap-2 mb-7 overflow-x-auto pb-1 no-scrollbar border-b border-white/[0.06] pt-1">
+        <div className="flex items-center gap-1 mb-7 overflow-x-auto no-scrollbar border-b border-white/[0.06]">
           {[
             { status: null, label: t('dashboard.filters.all', 'All'), count: counts.all },
             { status: 2, label: t('dashboard.filters.started', 'Started'), count: counts.started },
@@ -251,18 +248,14 @@ export function Dashboard({ onLogout, triggerLogout, setTriggerLogout }: Dashboa
                 key={String(status)}
                 type="button"
                 onClick={() => setFilterStatus(status)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all select-none ${
+                className={`flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium transition-colors select-none border-b-2 -mb-px ${
                   isActive
-                    ? 'bg-[#FF5100]/15 text-[#FF5100] border border-[#FF5100]/40 shadow-sm'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
+                    ? 'border-accent text-white'
+                    : 'border-transparent text-ink-muted hover:text-white'
                 }`}
               >
                 <span>{label}</span>
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                    isActive ? 'bg-[#FF5100] text-white' : 'bg-[#222225] text-gray-400'
-                  }`}
-                >
+                <span className={`text-xs tabular-nums ${isActive ? 'text-accent' : 'text-ink-faint'}`}>
                   {count}
                 </span>
               </button>
@@ -270,49 +263,38 @@ export function Dashboard({ onLogout, triggerLogout, setTriggerLogout }: Dashboa
           })}
         </div>
 
-        {/* Book Grid */}
         {books.length === 0 ? (
-          <div className="text-center py-20 bg-[#141414] border border-white/[0.06] rounded-3xl p-8 max-w-lg mx-auto shadow-2xl">
-            <div className="w-16 h-16 mx-auto mb-4 bg-white/[0.04] border border-white/[0.08] rounded-2xl flex items-center justify-center text-gray-500">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                />
-              </svg>
-            </div>
-            <h3 className="text-white text-lg font-bold mb-1">
+          <div className="text-center py-20 max-w-md mx-auto">
+            <h3 className="text-white text-base font-medium mb-1">
               {t('dashboard.noBooks', 'No books found')}
             </h3>
-            <p className="text-gray-400 text-xs max-w-sm mx-auto mb-5">
+            <p className="text-ink-muted text-sm max-w-sm mx-auto mb-5">
               {t('dashboard.emptyLibrary', 'Your library appears to be empty.')}
             </p>
             <button
               type="button"
               onClick={() => navigate('/search')}
-              className="px-5 py-2.5 rounded-xl bg-[#FF5100] text-white text-xs font-bold shadow-lg shadow-[#FF5100]/30 hover:brightness-110 active:scale-95 transition-all"
+              className="px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-sm font-medium transition-colors"
             >
               {t('dashboard.exploreCatalog', 'Explore the catalog (⌘K)')}
             </button>
           </div>
         ) : filteredBooks.length === 0 ? (
-          <div className="text-center py-16 bg-[#141414] border border-white/[0.06] rounded-3xl p-8 space-y-3 max-w-lg mx-auto shadow-xl">
-            <p className="text-gray-300 text-sm font-medium">{t('dashboard.noFilterMatch', 'No books matched your filter.')}</p>
+          <div className="text-center py-16 space-y-3 max-w-md mx-auto">
+            <p className="text-ink-muted text-sm">{t('dashboard.noFilterMatch', 'No books matched your filter.')}</p>
             <button
               type="button"
               onClick={() => {
                 setFilterStatus(null);
                 setSearchQuery('');
               }}
-              className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs text-white font-semibold transition-all"
+              className="px-3 py-1.5 rounded-md text-sm text-white hover:bg-white/10 transition-colors"
             >
               {t('dashboard.resetFilters', 'Reset filters')}
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-6 sm:gap-x-5">
             {filteredBooks
               .filter((book) => !!book?.abook || !!book?.book)
               .map((book) => (
@@ -338,10 +320,10 @@ export function Dashboard({ onLogout, triggerLogout, setTriggerLogout }: Dashboa
 
       {toastMessage && (
         <div
-          className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-xs font-medium shadow-2xl backdrop-blur-md border animate-in fade-in slide-in-from-bottom-2 ${
+          className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-md text-xs font-medium border ${
             toastMessage.type === 'success'
-              ? 'bg-green-950/90 text-green-300 border-green-700/50'
-              : 'bg-red-950/90 text-red-300 border-red-700/50'
+              ? 'bg-surface-overlay text-green-300 border-green-800/60'
+              : 'bg-surface-overlay text-red-300 border-red-800/60'
           }`}
         >
           {toastMessage.text}

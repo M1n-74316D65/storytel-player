@@ -187,14 +187,13 @@ export function SearchView({ query: propQuery }: SearchViewProps) {
   };
 
   return (
-    <div className="flex h-full w-full bg-[#0A0A0A] overflow-hidden relative select-none">
-      {/* Toast feedback banner */}
+    <div className="flex h-full w-full bg-surface-base overflow-hidden relative select-none">
       {toastMessage && (
         <div
-          className={`absolute top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-xs font-medium flex items-center gap-2 shadow-2xl backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 ${
+          className={`absolute top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-md text-xs font-medium flex items-center gap-2 border ${
             toastMessage.type === 'success'
-              ? 'bg-green-950/95 text-green-300 border border-green-700/50'
-              : 'bg-red-950/95 text-red-300 border border-red-700/50'
+              ? 'bg-surface-overlay text-green-300 border-green-800/60'
+              : 'bg-surface-overlay text-red-300 border-red-800/60'
           }`}
         >
           {toastMessage.type === 'success' ? (
@@ -210,7 +209,6 @@ export function SearchView({ query: propQuery }: SearchViewProps) {
         </div>
       )}
 
-      {/* 1. Left: Filter Rail (248px) */}
       <SearchFilterRail
         languageStats={languageStats}
         selectedLanguages={selectedLanguages}
@@ -221,48 +219,37 @@ export function SearchView({ query: propQuery }: SearchViewProps) {
         totalHits={rawResults.length}
       />
 
-      {/* 2. Center: Result List (flex) */}
       {isLoading && rawResults.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#0A0A0A]">
-          <div className="w-8 h-8 border-2 border-[#FF5100] border-t-transparent rounded-full animate-spin mb-3" />
-          <p className="text-sm font-medium text-gray-400">{t('search.searching', 'Searching...')}</p>
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-surface-base">
+          <div className="w-7 h-7 border-2 border-accent border-t-transparent rounded-full animate-spin mb-3" />
+          <p className="text-sm text-ink-muted">{t('search.searching', 'Searching...')}</p>
         </div>
       ) : !activeQuery.trim() ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#0A0A0A]">
-          <div className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-gray-500 mb-3">
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <h3 className="text-base font-bold text-white mb-1">{t('search.title', 'Search Storytel')}</h3>
-          <p className="text-xs text-gray-500 max-w-sm">
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-surface-base">
+          <h3 className="text-base font-medium text-white mb-1">{t('search.title', 'Search Storytel')}</h3>
+          <p className="text-sm text-ink-faint max-w-sm">
             {t('search.initialPrompt', "Type to search Storytel's vast catalog of audiobooks")}
           </p>
         </div>
       ) : rawResults.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#0A0A0A]">
-          <div className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-gray-500 mb-3">
-            <svg className="w-7 h-7 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 className="text-base font-bold text-white mb-1">
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-surface-base">
+          <h3 className="text-base font-medium text-white mb-1">
             {t('search.noResults', 'No books found for')} ”{activeQuery}”
           </h3>
-          <p className="text-xs text-gray-500 max-w-sm">
+          <p className="text-sm text-ink-faint max-w-sm">
             {t('search.noResultsHint', 'Check the spelling or try another search term')}
           </p>
         </div>
       ) : filteredResults.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#0A0A0A]">
-          <h3 className="text-sm font-bold text-white mb-2">{t('search.noFilterMatch', 'No matches with the selected filters')}</h3>
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-surface-base">
+          <h3 className="text-sm font-medium text-white mb-2">{t('search.noFilterMatch', 'No matches with the selected filters')}</h3>
           <button
             type="button"
             onClick={() => {
               setSelectedLanguages([]);
               setSelectedDuration('all');
             }}
-            className="px-4 py-2 rounded-xl bg-[#FF5100] text-white text-xs font-semibold shadow-md shadow-[#FF5100]/25 hover:brightness-110 transition-all"
+            className="px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-white text-xs font-medium transition-colors"
           >
             {t('search.showAllLanguages', { total: rawResults.length })}
           </button>

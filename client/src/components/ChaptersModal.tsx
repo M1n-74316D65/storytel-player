@@ -25,15 +25,15 @@ function ChaptersModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-150">
-      <div className="bg-[#17171A] rounded-[16px] p-6 max-w-md w-full mx-4 max-h-[500px] flex flex-col border border-white/[0.12] shadow-[0_24px_60px_rgba(0,0,0,0.85)]">
-        <div className="flex justify-between items-center mb-4 pb-3 border-b border-white/[0.08]">
-          <h3 className="text-base font-semibold text-white tracking-wide">
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+      <div className="bg-surface-raised rounded-lg p-5 max-w-md w-full mx-4 max-h-[500px] flex flex-col border border-white/[0.08] shadow-lg">
+        <div className="flex justify-between items-center mb-4 pb-3 border-b border-white/[0.06]">
+          <h3 className="text-base font-semibold text-white">
             {t('chapters.title', 'Chapters')}
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors"
+            className="text-ink-muted hover:text-white p-1 rounded-md hover:bg-white/10 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
